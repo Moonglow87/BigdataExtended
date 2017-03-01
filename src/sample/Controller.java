@@ -10,17 +10,28 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.TableColumn;
+import javafx.scene.layout.Pane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.util.Callback;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 //import javafx.application.Platform;
 
 
+import javax.swing.*;
 import javax.swing.table.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Controller  {
@@ -33,9 +44,10 @@ public class Controller  {
     @FXML private TabPane tabPane;
 
     @FXML private Tab tableTab;
-        @FXML private TableView table;
+    @FXML private TableView table;
     @FXML private Tab chartTab;
     @FXML private Tab mapTab;
+    @FXML private ScrollPane mapPane;
     @FXML private Tab rChartTab;
     @FXML private Tab tableTab2;
 
@@ -137,6 +149,42 @@ public class Controller  {
     }
 
     public void MapTabActive(){
+
+
+        JSONObject obj = new JSONObject();
+        JSONArray markers = new JSONArray();
+
+        //loop door data format op deze manier de data
+        JSONObject marker = new JSONObject();
+        marker.put("label","Test");
+        marker.put("content","Content");
+        marker.put("location","Mexico City, Distrito Federal, Mexico");
+        markers.add(marker);
+        //endloop
+
+        obj.put("markers",markers);
+        String jsonstring = obj.toJSONString();
+
+        WebView webView = new WebView();
+        WebEngine webEngine = webView.getEngine();
+
+        URL url = getClass().getResource("../html/index.html");
+        File file = new File(url.getPath());
+        String content = null;
+        try {
+            content = new String (Files.readAllBytes(file.toPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Pattern p = Pattern.compile("\\{\\{.*\\}\\}");
+        Matcher m = p.matcher(content);
+
+        content = m.replaceFirst(jsonstring);
+
+        webEngine.loadContent(content);
+
+        mapPane.setContent(webView);
+
         if(mapTab.isSelected()) {
             System.out.println("MapTabActive");
             comboBox.getItems().setAll(comboBoxMapContent);
