@@ -10,7 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.TableColumn;
-import javafx.scene.layout.Pane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.util.Callback;
@@ -19,16 +18,13 @@ import org.json.simple.JSONObject;
 //import javafx.application.Platform;
 
 
-import javax.swing.*;
-import javax.swing.table.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.util.ArrayList;
 
 import java.sql.*;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,14 +55,7 @@ public class Controller  {
     private TableColumn col;
     private int colCount;
 
-    private Connection db;
     private ResultSet rs;
-    Statement statement;
-    String currentURL;
-
-    private String user = "postgres";
-    private String pass = "admin";
-    private String url = "jdbc:postgresql://localhost:5433/movieDB";
 
     private String sql = "SELECT * " +
             "FROM actors_in_movies AS one " +
@@ -82,22 +71,24 @@ public class Controller  {
             "ORDER BY one.moviereleasedate ASC " +
             "LIMIT 100";
 
+    private String sql3 = "SELECT * " +
+            "FROM actorinmovie " +
+            "WHERE actorname LIKE '%Braakhekke%'";
+
 
 
 
     //CombBox Data
     private String[] comboBoxTableContent = {
             "Welke film die in *LAND* is opgenomen heeft het meeste opgebracht in de bioscoop?", //0
-            "Welke film is het duurst geweest om op te nemen? (*CURRENCY*)",  //1
-            "Welke films spelen in meer dan landen?", //2
+            "Welke films spelen in meer landen?", //2
             "In welke films speelde *ACTEUR*?", //3
             "Welke acteur of actrice speelt het meest in de slechtst gewaardeerde films? (alle films onder rating van *RATING*)", //4
             "Wat is de kortste film met een waardering van *RATING* of hoger?", //5
             "Welke films zijn opgenomen in *LAND*?"}; //6
 
     private String[] comboBoxMapContent = {
-            "Welke film is het duurst geweest om op te nemen? (*CURRENCY*)",  //0
-            "Welke films spelen in meer dan landen?", //1
+            "Welke films spelen in meer landen?", //1
             "In welke films speelde *ACTEUR*?", //2
             "Welke acteur of actrice speelt het meest in de slechtst gewaardeerde films? (alle films onder rating van *RATING*)", //3
             "Wat is de kortste film met een waardering van *RATING* of hoger?", //4
@@ -105,8 +96,7 @@ public class Controller  {
 
     private String[] comboBoxChartContent = {
             "Welke film die in *LAND* is opgenomen heeft het meeste opgebracht in de bioscoop?", //0
-            "Welke film is het duurst geweest om op te nemen? (*CURRENCY*)",  //1
-            "Welke films spelen in meer dan landen?", //2
+            "Welke films spelen in meer landen?", //2
             "Welke acteur of actrice speelt het meest in de slechtst gewaardeerde films? (alle films onder rating van *RATING*)", //3
             "Wat is de kortste film met een waardering van *RATING* of hoger?"}; //4
 
@@ -115,22 +105,12 @@ public class Controller  {
         System.out.println(tabPane.getSelectionModel().getSelectedIndex());
         if(tabPane.getSelectionModel().getSelectedIndex()==4){
             try{
-            //qtm = new QueryTableModel();
-            //qtm.setHostURL();
-            //qtm.BuildTableModel(sql);
-            //table.setItems(qtm.BuildTableModel(sql));
-            /*ArrayList<TableColumn> tableColumnList = new ArrayList<>();
-            tableColumnList.add(new TableColumn("First Name"));
-            tableColumnList.add(new TableColumn("Last Name"));
-            tableColumnList.add(new TableColumn("Email"));
-            table.getColumns().addAll(tableColumnList);*/
-            getTableColums(sql2);
+            getTableColums(sql3);
             }
             catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        //button.addEventHandler();
     }
 
     public void TableTabActive(){
@@ -201,9 +181,9 @@ public class Controller  {
 
     public void getTableColums(String sqlstring){
         try{
-            QueryTableModel();
-            initDB(url, user, pass);
-            rs = statement.executeQuery(sqlstring);
+            data = FXCollections.observableArrayList();
+            DatabaseConnection.initDB();
+            rs = DatabaseConnection.statement.executeQuery(sqlstring);
             ResultSetMetaData meta = rs.getMetaData();
             colCount = meta.getColumnCount();
             for(int i=0 ; i<rs.getMetaData().getColumnCount(); i++){
@@ -238,48 +218,12 @@ public class Controller  {
             //FINALLY ADDED TO TableView
 
             table.setItems(data);
-            closeDB();
-
-
+            DatabaseConnection.closeDB();
         }
         catch (Exception e){
             System.out.println("Error on Building Data");
             e.printStackTrace();
-            closeDB();
+            DatabaseConnection.closeDB();
         }
     }
-
-    public void initDB(String url, String user, String pass) {
-        try {
-            db = DriverManager.getConnection(url, user, pass);
-            statement = db.createStatement();
-        } catch (Exception e) {
-            System.out.println("Could not initialize the database.");
-            e.printStackTrace();
-        }
-    }
-
-    public void closeDB() {
-        try {
-            if (statement != null) {
-                statement.close();
-            }
-            if (db != null) {
-                db.close();
-            }
-        } catch (Exception e) {
-            System.out.println("Could not close the current connection.");
-            e.printStackTrace();
-        }
-    }
-
-    public void QueryTableModel() {
-        data = FXCollections.observableArrayList();
-        try{
-            new org.postgresql.Driver();
-        }catch(Exception ee){
-            System.out.println("Could not use Driver.");
-        }
-    }
-
 }
