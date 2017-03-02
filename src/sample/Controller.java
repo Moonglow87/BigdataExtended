@@ -26,6 +26,7 @@ import java.nio.file.Files;
 
 import java.sql.*;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,8 +45,9 @@ public class Controller  {
     @FXML private Tab chartTab;
     @FXML private Tab mapTab;
     @FXML private ScrollPane mapPane;
-    @FXML private Tab rChartTab;
-    @FXML private Tab tableTab2;
+
+    private ArrayList<QuestionQuery> tableQuestions;
+
 
 
     //private QueryTableModel qtm;
@@ -57,55 +59,13 @@ public class Controller  {
 
     private ResultSet rs;
 
-    private String sql = "SELECT * " +
-            "FROM actors_in_movies AS one " +
-            "INNER JOIN movies AS two " +
-            "ON one.movieid = two.movieid " +
-            "INNER JOIN actors AS three " +
-            "ON one.actorid = three.actorid " +
-            "WHERE three.actorname LIKE '%Braakhekke%'";
-
-    private String sql2 = "SELECT one.movietitle, one.moviereleasedate " +
-            "FROM movies AS one " +
-            "WHERE one.movierating > 8.4 " +
-            "ORDER BY one.moviereleasedate ASC " +
-            "LIMIT 100";
-
-    private String sql3 = "SELECT * " +
-            "FROM actorinmovie " +
-            "WHERE actorname LIKE '%Braakhekke%'";
-
-
-
-
-    //CombBox Data
-    private String[] comboBoxTableContent = {
-            "Welke film die in *LAND* is opgenomen heeft het meeste opgebracht in de bioscoop?", //0
-            "Welke films spelen in meer landen?", //2
-            "In welke films speelde *ACTEUR*?", //3
-            "Welke acteur of actrice speelt het meest in de slechtst gewaardeerde films? (alle films onder rating van *RATING*)", //4
-            "Wat is de kortste film met een waardering van *RATING* of hoger?", //5
-            "Welke films zijn opgenomen in *LAND*?"}; //6
-
-    private String[] comboBoxMapContent = {
-            "Welke films spelen in meer landen?", //1
-            "In welke films speelde *ACTEUR*?", //2
-            "Welke acteur of actrice speelt het meest in de slechtst gewaardeerde films? (alle films onder rating van *RATING*)", //3
-            "Wat is de kortste film met een waardering van *RATING* of hoger?", //4
-            "Welke films zijn opgenomen in *LAND*?"}; //5
-
-    private String[] comboBoxChartContent = {
-            "Welke film die in *LAND* is opgenomen heeft het meeste opgebracht in de bioscoop?", //0
-            "Welke films spelen in meer landen?", //2
-            "Welke acteur of actrice speelt het meest in de slechtst gewaardeerde films? (alle films onder rating van *RATING*)", //3
-            "Wat is de kortste film met een waardering van *RATING* of hoger?"}; //4
 
     public void OnButtonClick(){
         System.out.println("OnButtonClick");
         System.out.println(tabPane.getSelectionModel().getSelectedIndex());
-        if(tabPane.getSelectionModel().getSelectedIndex()==4){
+        if(tabPane.getSelectionModel().getSelectedIndex()==0){
             try{
-            getTableColums(sql3);
+            getTableColums(tableQuestions.get(comboBox.getSelectionModel().getSelectedIndex()).query);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -115,22 +75,22 @@ public class Controller  {
 
     public void TableTabActive(){
         comboBox.setPromptText("Select Query");
-        if(tableTab.isSelected() || tableTab2.isSelected()) {
+        if(tableTab.isSelected()) {
             System.out.println("TableTabActive");
-            comboBox.getItems().setAll(comboBoxTableContent);
+            InitTableQuestions();
+            for (QuestionQuery question: tableQuestions)
+                comboBox.getItems().add(question.question);
         }
     }
 
     public void ChartTabActive(){
         if(chartTab.isSelected()){
             System.out.println("ChartTabActive");
-            comboBox.getItems().setAll(comboBoxChartContent);
+            //comboBox.getItems().setAll(comboBoxChartContent);
         }
     }
 
     public void MapTabActive(){
-
-
         JSONObject obj = new JSONObject();
         JSONArray markers = new JSONArray();
 
@@ -167,23 +127,25 @@ public class Controller  {
 
         if(mapTab.isSelected()) {
             System.out.println("MapTabActive");
-            comboBox.getItems().setAll(comboBoxMapContent);
+            //comboBox.getItems().setAll(comboBoxMapContent);
         }
     }
 
-    public void RChartTabActive(){
-        if(rChartTab.isSelected())
-            System.out.println("RChartTabActive");
-    }
 
     public void InitUI(){
     }
 
+    public void clearTable(){
+        table.getItems().clear();
+        table.getColumns().clear();
+    }
+
     public void getTableColums(String sqlstring){
         try{
+            clearTable();
             data = FXCollections.observableArrayList();
-            DatabaseConnection.initDB();
-            rs = DatabaseConnection.statement.executeQuery(sqlstring);
+            DBConnection.initDB();
+            rs = DBConnection.statement.executeQuery(sqlstring);
             ResultSetMetaData meta = rs.getMetaData();
             colCount = meta.getColumnCount();
             for(int i=0 ; i<rs.getMetaData().getColumnCount(); i++){
@@ -205,7 +167,7 @@ public class Controller  {
                 //Iterate Row
                 ObservableList<String> row = FXCollections.observableArrayList();
                 for(int i=1 ; i<=rs.getMetaData().getColumnCount(); i++){
-                    //Iterate Column
+                    //Iterate Column and replace nulls with emptystring
                     if(rs.getString(i) == null)
                         row.add("");
                     else
@@ -218,12 +180,87 @@ public class Controller  {
             //FINALLY ADDED TO TableView
 
             table.setItems(data);
-            DatabaseConnection.closeDB();
+            DBConnection.closeDB();
         }
         catch (Exception e){
             System.out.println("Error on Building Data");
             e.printStackTrace();
-            DatabaseConnection.closeDB();
+            DBConnection.closeDB();
         }
+    }
+
+    private void InitTableQuestions() {
+        tableQuestions = new ArrayList<>();
+        tableQuestions.add(new QuestionQuery("Welke acteur (m/v) heeft de meeste dubbelrollen",
+                "SELECT count(*) as counted, actorname FROM actorinmovie\n" +
+                        "WHERE actorplays LIKE '%/%' GROUP BY actorname ORDER BY counted DESC\n" +
+                        "LIMIT 10;"));
+        tableQuestions.add(new QuestionQuery("In welke films speelde Joop Braakhekke",
+                "SELECT * FROM actorinmovie\n" +
+                        "WHERE actorname = 'Braakhekke, Joop' \n" +
+                        "AND isserie = FALSE;"));
+        tableQuestions.add(new QuestionQuery("Welke acteur (m/v) speelt het meest in de slechtst gewaardeerde films? !!Duurt Lang!!",
+                "SELECT one.actorname, sum(case when two.rating < 3.5 and two.isserie = FALSE then 1 else 0  end) as BadMovies\n" +
+                        "FROM actorinmovie AS one\n" +
+                        "INNER JOIN movies AS two\n" +
+                        "   ON one.movietitle = two.movietitle\n" +
+                        "   AND one.moviereleasedate = two.releasedate\n" +
+                        "GROUP BY one.actorname\n" +
+                        "ORDER BY BadMovies DESC\n" +
+                        "LIMIT 100;"));
+        tableQuestions.add(new QuestionQuery("Welke regisseur heeft de meeste films met Jim Carrey in de hoofdrol geregisseerd",
+                "SELECT count(*) AS counted, directorname FROM moviedirector\n" +
+                        "INNER JOIN actorinmovie\n" +
+                        "ON moviedirector.movietitle = actorinmovie.movietitle\n" +
+                        " AND moviedirector.moviereleasedate = actorinmovie.moviereleasedate\n" +
+                        " AND moviedirector.isserie = actorinmovie.isserie\n" +
+                        "WHERE actorinmovie.actorname = 'Carrey, Jim'\n" +
+                        "    AND actorinmovie.priority = 1\n" +
+                        "GROUP BY directorname\n" +
+                        "ORDER BY counted DESC\n" +
+                        "LIMIT 10;"));
+        tableQuestions.add(new QuestionQuery("In welk jaar tussen 1990 en nu zijn de meeste films met het woord ‘beer’ in de titel geproduceerd",
+                "SELECT counted, releasedate from (\n" +
+                        " SELECT count(*) AS counted, releasedate FROM movies\n" +
+                        "WHERE isserie = FALSE\n" +
+                        "     AND movietitle LIKE '%beer%'\n" +
+                        "GROUP BY releasedate ORDER BY counted DESC\n" +
+                        ") AS count LIMIT 10"));
+        tableQuestions.add(new QuestionQuery("^... En wat is het meest voorkomende genre",
+                "SELECT counted, genretype from (\n" +
+                        " SELECT count(*) AS counted, genretype FROM moviegenre\n" +
+                        "WHERE isserie = FALSE\n" +
+                        "     AND movietitle LIKE '%beer%'\n" +
+                        "GROUP BY genretype ORDER BY counted DESC\n" +
+                        ") AS count LIMIT 10"));
+        tableQuestions.add(new QuestionQuery("Wat is de kortste film met een waardering van 8.5 of hoger",
+                "SELECT *\n" +
+                        "FROM movies\n" +
+                        "WHERE rating > 8.5 AND duration > 1\n" +
+                        "      AND rating NOTNULL\n" +
+                        "      AND movies.isserie = FALSE\n" +
+                        "ORDER BY duration ASC;"));
+        tableQuestions.add(new QuestionQuery("Hoeveel films heeft Woody Allen gemaakt",
+                "SELECT count(*)\n" +
+                        "FROM moviedirector\n" +
+                        "WHERE directorname = 'Allen, Woody';"));
+        tableQuestions.add(new QuestionQuery("In hoeveel daarvan speelde Woody Allen zelf mee",
+                "SELECT count(*) FROM actorinmovie\n" +
+                        "INNER JOIN moviedirector\n" +
+                        "   ON moviedirector.movietitle = actorinmovie.movietitle\n" +
+                        " AND moviedirector.moviereleasedate = actorinmovie.moviereleasedate\n" +
+                        " AND moviedirector.isserie = actorinmovie.isserie\n" +
+                        "WHERE directorname = 'Allen, Woody'\n" +
+                        "     AND actorname = 'Allen, Woody'\n" +
+                        "     AND actorinmovie.isserie = FALSE;"));
+        tableQuestions.add(new QuestionQuery("Zijn er ook films waarin Woody Allen wel speelde maar niet regisseerde",
+                "SELECT actorinmovie.* FROM actorinmovie\n" +
+                        "INNER JOIN moviedirector\n" +
+                        "   ON moviedirector.movietitle = actorinmovie.movietitle\n" +
+                        " AND moviedirector.moviereleasedate = actorinmovie.moviereleasedate\n" +
+                        " AND moviedirector.isserie = actorinmovie.isserie\n" +
+                        "WHERE directorname != 'Allen, Woody'\n" +
+                        "     AND actorname = 'Allen, Woody'\n" +
+                        "     AND actorinmovie.isserie = FALSE;"));
     }
 }

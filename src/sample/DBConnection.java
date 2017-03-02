@@ -7,7 +7,7 @@ import java.sql.Statement;
 /**
  * Created by michael on 02/03/2017.
  */
-public class DatabaseConnection {
+public class DBConnection {
 
     private static Connection db;
     static Statement statement;
