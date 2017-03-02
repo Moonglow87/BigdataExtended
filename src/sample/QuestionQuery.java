@@ -1,5 +1,7 @@
 package sample;
 
+import java.util.ArrayList;
+
 /**
  * Created by michael on 13/02/2017.
  */
@@ -7,8 +9,86 @@ public class QuestionQuery {
     public String question = "";
     public String query = "";
 
+    public static ArrayList<QuestionQuery> tableQuestions;
+
     public QuestionQuery(String question, String query) {
         this.question = question;
         this.query = query;
     }
+
+    public static void InitTableQuestions() {
+        tableQuestions = new ArrayList<>();
+        tableQuestions.add(new QuestionQuery("Welke acteur (m/v) heeft de meeste dubbelrollen",
+                "SELECT count(*) as counted, actorname FROM actorinmovie\n" +
+                        "WHERE actorplays LIKE '%/%' GROUP BY actorname ORDER BY counted DESC\n" +
+                        "LIMIT 10;"));
+        tableQuestions.add(new QuestionQuery("In welke films speelde Joop Braakhekke",
+                "SELECT * FROM actorinmovie\n" +
+                        "WHERE actorname = 'Braakhekke, Joop' \n" +
+                        "AND isserie = FALSE;"));
+        tableQuestions.add(new QuestionQuery("Welke acteur (m/v) speelt het meest in de slechtst gewaardeerde films? !!Duurt Lang!!",
+                "SELECT one.actorname, sum(case when two.rating < 3.5 and two.isserie = FALSE then 1 else 0  end) as BadMovies\n" +
+                        "FROM actorinmovie AS one\n" +
+                        "INNER JOIN movies AS two\n" +
+                        "   ON one.movietitle = two.movietitle\n" +
+                        "   AND one.moviereleasedate = two.releasedate\n" +
+                        "GROUP BY one.actorname\n" +
+                        "ORDER BY BadMovies DESC\n" +
+                        "LIMIT 100;"));
+        tableQuestions.add(new QuestionQuery("Welke regisseur heeft de meeste films met Jim Carrey in de hoofdrol geregisseerd",
+                "SELECT count(*) AS counted, directorname FROM moviedirector\n" +
+                        "INNER JOIN actorinmovie\n" +
+                        "ON moviedirector.movietitle = actorinmovie.movietitle\n" +
+                        " AND moviedirector.moviereleasedate = actorinmovie.moviereleasedate\n" +
+                        " AND moviedirector.isserie = actorinmovie.isserie\n" +
+                        "WHERE actorinmovie.actorname = 'Carrey, Jim'\n" +
+                        "    AND actorinmovie.priority = 1\n" +
+                        "GROUP BY directorname\n" +
+                        "ORDER BY counted DESC\n" +
+                        "LIMIT 10;"));
+        tableQuestions.add(new QuestionQuery("In welk jaar tussen 1990 en nu zijn de meeste films met het woord ‘beer’ in de titel geproduceerd",
+                "SELECT counted, releasedate from (\n" +
+                        " SELECT count(*) AS counted, releasedate FROM movies\n" +
+                        "WHERE isserie = FALSE\n" +
+                        "     AND movietitle LIKE '%beer%'\n" +
+                        "GROUP BY releasedate ORDER BY counted DESC\n" +
+                        ") AS count LIMIT 10"));
+        tableQuestions.add(new QuestionQuery("^... En wat is het meest voorkomende genre",
+                "SELECT counted, genretype from (\n" +
+                        " SELECT count(*) AS counted, genretype FROM moviegenre\n" +
+                        "WHERE isserie = FALSE\n" +
+                        "     AND movietitle LIKE '%beer%'\n" +
+                        "GROUP BY genretype ORDER BY counted DESC\n" +
+                        ") AS count LIMIT 10"));
+        tableQuestions.add(new QuestionQuery("Wat is de kortste film met een waardering van 8.5 of hoger",
+                "SELECT *\n" +
+                        "FROM movies\n" +
+                        "WHERE rating > 8.5 AND duration > 1\n" +
+                        "      AND rating NOTNULL\n" +
+                        "      AND movies.isserie = FALSE\n" +
+                        "ORDER BY duration ASC;"));
+        tableQuestions.add(new QuestionQuery("Hoeveel films heeft Woody Allen gemaakt",
+                "SELECT count(*)\n" +
+                        "FROM moviedirector\n" +
+                        "WHERE directorname = 'Allen, Woody';"));
+        tableQuestions.add(new QuestionQuery("In hoeveel daarvan speelde Woody Allen zelf mee",
+                "SELECT count(*) FROM actorinmovie\n" +
+                        "INNER JOIN moviedirector\n" +
+                        "   ON moviedirector.movietitle = actorinmovie.movietitle\n" +
+                        " AND moviedirector.moviereleasedate = actorinmovie.moviereleasedate\n" +
+                        " AND moviedirector.isserie = actorinmovie.isserie\n" +
+                        "WHERE directorname = 'Allen, Woody'\n" +
+                        "     AND actorname = 'Allen, Woody'\n" +
+                        "     AND actorinmovie.isserie = FALSE;"));
+        tableQuestions.add(new QuestionQuery("Zijn er ook films waarin Woody Allen wel speelde maar niet regisseerde",
+                "SELECT actorinmovie.* FROM actorinmovie\n" +
+                        "INNER JOIN moviedirector\n" +
+                        "   ON moviedirector.movietitle = actorinmovie.movietitle\n" +
+                        " AND moviedirector.moviereleasedate = actorinmovie.moviereleasedate\n" +
+                        " AND moviedirector.isserie = actorinmovie.isserie\n" +
+                        "WHERE directorname != 'Allen, Woody'\n" +
+                        "     AND actorname = 'Allen, Woody'\n" +
+                        "     AND actorinmovie.isserie = FALSE;"));
+    }
 }
+
