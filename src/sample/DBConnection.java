@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 
 /**
- * Created by michael on 02/03/2017.
+ * Created by michael on 10/01/2017.
  */
 public class DBConnection {
 

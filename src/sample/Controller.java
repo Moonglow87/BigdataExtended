@@ -8,6 +8,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.TableColumn;
 import javafx.scene.web.WebEngine;
@@ -40,8 +43,10 @@ public class Controller  {
     @FXML private TabPane tabPane;
 
     @FXML private Tab tableTab;
-    @FXML private TableView table;
+        @FXML private TableView table;
     @FXML private Tab chartTab;
+        @FXML private PieChart pieChart;
+        @FXML private BarChart barChart;
     @FXML private Tab mapTab;
     @FXML private ScrollPane mapPane;
 
@@ -64,7 +69,16 @@ public class Controller  {
         System.out.println(tabPane.getSelectionModel().getSelectedIndex());
         if(tabPane.getSelectionModel().getSelectedIndex()==0){
             try{
-            getTableColums(QuestionQuery.tableQuestions.get(comboBox.getSelectionModel().getSelectedIndex()).query);
+                getTableColums(QuestionQuery.tableQuestions.get(comboBox.getSelectionModel().getSelectedIndex()).query);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if(tabPane.getSelectionModel().getSelectedIndex()==1){
+            try{
+                //getTableColums(QuestionQuery.tableQuestions.get(comboBox.getSelectionModel().getSelectedIndex()).query);
+                getChartData(QuestionQuery.chartQuestions.get(comboBox.getSelectionModel().getSelectedIndex()).query);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -74,6 +88,7 @@ public class Controller  {
 
     public void TableTabActive(){
         comboBox.setPromptText("Select Query");
+        comboBox.getItems().clear();
         if(tableTab.isSelected()) {
             System.out.println("TableTabActive");
             QuestionQuery.InitTableQuestions();
@@ -83,9 +98,14 @@ public class Controller  {
     }
 
     public void ChartTabActive(){
+        comboBox.setPromptText("Select Query");
+        comboBox.getItems().clear();
         if(chartTab.isSelected()){
             System.out.println("ChartTabActive");
-            //comboBox.getItems().setAll(comboBoxChartContent);
+            QuestionQuery.InitChartQuestions();
+            //comboBox.getItems().setAll(chartQuestions);;
+            for (QuestionQuery question: QuestionQuery.chartQuestions)
+                comboBox.getItems().add(question.question);
         }
     }
 
@@ -139,6 +159,9 @@ public class Controller  {
         table.getColumns().clear();
     }
 
+    /********************************
+     * Todo: Move this another Class?*
+     ********************************/
     public void getTableColums(String sqlstring){
         try{
             clearTable();
@@ -185,6 +208,30 @@ public class Controller  {
             System.out.println("Error on Building Data");
             e.printStackTrace();
             DBConnection.closeDB();
+        }
+    }
+
+    private void getChartData(String sql) {
+        try{
+            barChart.setVisible(true);
+            DBConnection.initDB();
+            rs = DBConnection.statement.executeQuery(sql);
+            XYChart.Series serie = new XYChart.Series();
+            serie.setName("Nederland");
+            while (rs.next())
+            {
+                int aantal = Integer.parseInt(rs.getString("counted"));
+                String genre = rs.getString("releasedate");
+                serie.getData().add(new XYChart.Data(genre, aantal));
+            }
+            barChart.getData().retainAll();
+            barChart.getData().add(serie);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error on Building Data");
+            DBConnection.closeDB();
+
         }
     }
 }

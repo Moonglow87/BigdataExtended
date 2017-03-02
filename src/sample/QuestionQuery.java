@@ -10,6 +10,7 @@ public class QuestionQuery {
     public String query = "";
 
     public static ArrayList<QuestionQuery> tableQuestions;
+    public static ArrayList<QuestionQuery> chartQuestions;
 
     public QuestionQuery(String question, String query) {
         this.question = question;
@@ -89,6 +90,19 @@ public class QuestionQuery {
                         "WHERE directorname != 'Allen, Woody'\n" +
                         "     AND actorname = 'Allen, Woody'\n" +
                         "     AND actorinmovie.isserie = FALSE;"));
+    }
+
+    public static void InitChartQuestions(){
+        chartQuestions = new ArrayList<>();
+        chartQuestions.add(new QuestionQuery("Geef het aantal films dat in Nederland gemaakt is weer in de tijd.",
+                "SELECT count(*) as counted, releasedate FROM movies\n" +
+                        "INNER JOIN movielocation ON movies.movietitle = movielocation.movietitle\n" +
+                        "AND movies.releasedate = movielocation.moviereleasedate\n" +
+                        "AND movies.isserie = movielocation.isserie\n" +
+                        "WHERE locationname = 'nl' AND movies.isserie = FALSE GROUP BY releasedate\n" +
+                        "ORDER BY counted DESC"));
+
+
     }
 }
 
