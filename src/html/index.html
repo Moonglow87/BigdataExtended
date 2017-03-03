@@ -37,7 +37,7 @@
 
 		if(result != null) {
             $.each(result["markers"], function (index, value) {
-                createMarkerByAddress(value["location"]);
+                createMarker(value);
             });
         }
     };
@@ -46,19 +46,28 @@
         cachedAddresses[address] = new google.maps.LatLng(location.lat(), location.lng());
     };
 
-    function createMarker(location, address) {
+    function createMarker(data) {
+		var location = data["location"];
+		location = location.split(',');
+		if(location.length < 2)
+		    return;
+
+		var label = data["label"];
+		var content = data["content"];
+
+        location = new google.maps.LatLng(location[0],location[1]);
+
         var marker = new google.maps.Marker({
             map: map,
-            position: location,
-            title: address || location.toString()
+            position: location
         });
 
         var contentString = '<div id="content">'+
             '<div id="siteNotice">'+
             '</div>'+
-            '<h1 id="firstHeading" class="firstHeading">Label</h1>'+
+            '<h1 id="firstHeading" class="firstHeading">'+label+'</h1>'+
             '<div id="bodyContent">'+
-            '<p>Text</p>'+
+            '<p>'+content+'</p>'+
             '</div>'+
             '</div>';
 
@@ -79,6 +88,7 @@
             //https://developers.google.com/maps/premium/usage-limits#limitexceeded
             geocoder.geocode({'address': address}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
+                    console.log(results[0].geometry.location);
                     cacheAddress(address, results[0].geometry.location);
                     createMarker(results[0].geometry.location, address);
                 }
