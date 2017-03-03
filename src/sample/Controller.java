@@ -1,5 +1,5 @@
 /**
- * Created by michael on 31/01/2017.
+ * Created by michael on 03/01/2017.
  */
 package sample;
 
@@ -29,7 +29,6 @@ import java.nio.file.Files;
 
 import java.sql.*;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,6 +55,8 @@ public class Controller  {
 
     //private QueryTableModel qtm;
     private ObservableList<ObservableList> data;
+    private ObservableList pieChartData;
+
 
 
     private TableColumn col;
@@ -78,7 +79,10 @@ public class Controller  {
         if(tabPane.getSelectionModel().getSelectedIndex()==1){
             try{
                 //getTableColums(QuestionQuery.tableQuestions.get(comboBox.getSelectionModel().getSelectedIndex()).query);
-                getChartData(QuestionQuery.chartQuestions.get(comboBox.getSelectionModel().getSelectedIndex()).query);
+                if(comboBox.getSelectionModel().getSelectedIndex() == 0)
+                    getBarChartData(QuestionQuery.chartQuestions.get(comboBox.getSelectionModel().getSelectedIndex()).query);
+                if(comboBox.getSelectionModel().getSelectedIndex() == 1)
+                    getPieChartData(QuestionQuery.chartQuestions.get(comboBox.getSelectionModel().getSelectedIndex()).query);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -211,18 +215,39 @@ public class Controller  {
         }
     }
 
-    private void getChartData(String sql) {
+    private void getPieChartData(String sql){
         try{
+            barChart.setVisible(false);
+            pieChart.setVisible(true);
+            pieChart.getData().clear();
+            DBConnection.initDB();
+            rs = DBConnection.statement.executeQuery(sql);
+            pieChartData = FXCollections.observableArrayList();
+            while(rs.next()){
+                //adding data on piechart data
+                pieChartData.add(new PieChart.Data(rs.getString(2),rs.getDouble(1)));
+            }
+            pieChart.getData().addAll(pieChartData);
+        }catch(Exception e){
+            System.out.println("Error on DB connection");
+            DBConnection.closeDB();
+        }
+
+    }
+
+
+    private void getBarChartData(String sql) {
+        try{
+            pieChart.setVisible(false);
             barChart.setVisible(true);
             DBConnection.initDB();
             rs = DBConnection.statement.executeQuery(sql);
             XYChart.Series serie = new XYChart.Series();
-            serie.setName("Nederland");
+            serie.setName("Nederland");  //TODO: Change it Dynammically
             while (rs.next())
             {
-                int aantal = Integer.parseInt(rs.getString("counted"));
-                String genre = rs.getString("releasedate");
-                serie.getData().add(new XYChart.Data(genre, aantal));
+                //adding data on barchart Data
+                serie.getData().add(new XYChart.Data(rs.getString(2), Integer.parseInt(rs.getString(1))));
             }
             barChart.getData().retainAll();
             barChart.getData().add(serie);

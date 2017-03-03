@@ -101,6 +101,13 @@ public class QuestionQuery {
                         "AND movies.isserie = movielocation.isserie\n" +
                         "WHERE locationname = 'nl' AND movies.isserie = FALSE GROUP BY releasedate\n" +
                         "ORDER BY counted DESC"));
+        chartQuestions.add(new QuestionQuery("Geef het aantal films dat in een land gemaakt is.",
+                "SELECT COUNT(movietitle), country.countryname\n" +
+                        "FROM movielocation\n" +
+                        "  INNER JOIN country\n" +
+                        "  ON movielocation.locationname = country.countryid\n" +
+                        "WHERE isserie = FALSE AND country.countryname NOTNULL \n" +
+                        "GROUP BY country.countryname;"));
 
 
     }

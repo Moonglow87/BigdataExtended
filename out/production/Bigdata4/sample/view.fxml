@@ -43,7 +43,7 @@
                <content>
                   <AnchorPane prefHeight="600.0" prefWidth="800.0">
                      <children>
-                        <PieChart fx:id="pieChart" prefHeight="600.0" prefWidth="800.0" visible="false" />
+                        <PieChart fx:id="pieChart" prefHeight="520.0" prefWidth="800.0" visible="false" />
                         <BarChart fx:id="barChart" prefHeight="518.0" prefWidth="800.0" visible="false">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
