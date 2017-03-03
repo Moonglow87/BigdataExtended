@@ -75,8 +75,8 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="29" column="50" lean-forward="true" selection-start-line="29" selection-start-column="50" selection-end-line="29" selection-end-column="50" />
+            <state relative-caret-position="612">
+              <caret line="36" column="50" lean-forward="false" selection-start-line="36" selection-start-column="50" selection-end-line="36" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -85,11 +85,10 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="168" column="50" lean-forward="false" selection-start-line="168" selection-start-column="50" selection-end-line="168" selection-end-column="50" />
+            <state relative-caret-position="187">
+              <caret line="99" column="47" lean-forward="false" selection-start-line="99" selection-start-column="47" selection-end-line="99" selection-end-column="47" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -98,8 +97,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/html/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-728">
-              <caret line="10" column="7" lean-forward="false" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+            <state relative-caret-position="357">
+              <caret line="21" column="25" lean-forward="false" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -110,16 +109,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="2108">
               <caret line="130" column="27" lean-forward="false" selection-start-line="130" selection-start-column="27" selection-end-line="130" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DynamicTable.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/DynamicTable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1003">
-              <caret line="79" column="26" lean-forward="false" selection-start-line="79" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -143,6 +132,7 @@
       <find>tabletabactive</find>
       <find>map</find>
       <find>TableTabActive</find>
+      <find>button</find>
     </findStrings>
   </component>
   <component name="FindManager">
@@ -164,6 +154,7 @@
         <option value="$PROJECT_DIR$/src/sample/QueryTableModel.java" />
         <option value="$PROJECT_DIR$/src/sample/WebPanel.java" />
         <option value="$PROJECT_DIR$/src/sample/view.fxml" />
+        <option value="$PROJECT_DIR$/src/html/index.html" />
         <option value="$PROJECT_DIR$/src/sample/Controller.java" />
       </list>
     </option>
@@ -178,7 +169,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1932" />
+    <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
   <component name="ProjectReloadState">
@@ -199,6 +190,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
@@ -265,7 +257,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -285,7 +276,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/BigAssMovieDatabase-master/BigAssMovieDatabase-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -731,15 +722,17 @@
       <workItem from="1488312303877" duration="636000" />
       <workItem from="1488392637236" duration="817000" />
       <workItem from="1488403692310" duration="1712000" />
+      <workItem from="1488484307745" duration="1958000" />
+      <workItem from="1488570007590" duration="309000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48264000" />
+    <option name="totallyTimeSpent" value="50531000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1932" height="1056" extended-state="0" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -756,7 +749,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12943633" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12916666" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -819,19 +812,11 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="15" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/WebPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="12" lean-forward="true" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/WebPanel.java" />
     <entry file="file://$PROJECT_DIR$/src/html/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -848,14 +833,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/DynamicTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1003">
-          <caret line="79" column="26" lean-forward="false" selection-start-line="79" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/DynamicTable.java" />
     <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -881,7 +859,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -894,14 +871,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/DynamicTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1003">
-          <caret line="79" column="26" lean-forward="false" selection-start-line="79" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/DynamicTable.java" />
     <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -927,7 +897,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -945,14 +914,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/DynamicTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="79" column="26" lean-forward="false" selection-start-line="79" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/DynamicTable.java" />
     <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -978,7 +940,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -996,14 +957,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/DynamicTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="79" column="26" lean-forward="false" selection-start-line="79" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/DynamicTable.java" />
     <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -1018,7 +972,6 @@
           <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1075,14 +1028,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/DynamicTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1003">
-          <caret line="79" column="26" lean-forward="false" selection-start-line="79" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/DynamicTable.java" />
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_111/javafx-src.zip!/javafx/scene/layout/Pane.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-711">
@@ -1103,35 +1049,27 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="29" column="50" lean-forward="true" selection-start-line="29" selection-start-column="50" selection-end-line="29" selection-end-column="50" />
+        <state relative-caret-position="612">
+          <caret line="36" column="50" lean-forward="false" selection-start-line="36" selection-start-column="50" selection-end-line="36" selection-end-column="50" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/WebPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="81" column="0" lean-forward="false" selection-start-line="81" selection-start-column="0" selection-end-line="84" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/WebPanel.java" />
     <entry file="file://$PROJECT_DIR$/src/html/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-728">
-          <caret line="10" column="7" lean-forward="false" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+        <state relative-caret-position="357">
+          <caret line="21" column="25" lean-forward="false" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="168" column="50" lean-forward="false" selection-start-line="168" selection-start-column="50" selection-end-line="168" selection-end-column="50" />
+        <state relative-caret-position="187">
+          <caret line="99" column="47" lean-forward="false" selection-start-line="99" selection-start-column="47" selection-end-line="99" selection-end-column="47" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

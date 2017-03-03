@@ -64,7 +64,7 @@ public class Controller  {
         System.out.println(tabPane.getSelectionModel().getSelectedIndex());
         if(tabPane.getSelectionModel().getSelectedIndex()==0){
             try{
-            getTableColums(QuestionQuery.tableQuestions.get(comboBox.getSelectionModel().getSelectedIndex()).query);
+                getTableColums(QuestionQuery.tableQuestions.get(comboBox.getSelectionModel().getSelectedIndex()).query);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -97,7 +97,7 @@ public class Controller  {
         JSONObject marker = new JSONObject();
         marker.put("label","Test");
         marker.put("content","Content");
-        marker.put("location","Mexico City, Distrito Federal, Mexico");
+        marker.put("location","41.3308,-94.0138");
         markers.add(marker);
         //endloop
 
@@ -109,15 +109,16 @@ public class Controller  {
 
         URL url = getClass().getResource("../html/index.html");
         File file = new File(url.getPath());
+
         String content = null;
         try {
             content = new String (Files.readAllBytes(file.toPath()));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         Pattern p = Pattern.compile("\\{\\{.*\\}\\}");
         Matcher m = p.matcher(content);
-
         content = m.replaceFirst(jsonstring);
 
         webEngine.loadContent(content);

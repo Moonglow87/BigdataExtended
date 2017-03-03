@@ -18,7 +18,14 @@
 
     function initialize() {
         var jsonstring = '{{json}}';
-        var data = JSON.parse(jsonstring);
+
+        var result = null;
+        try {
+            result = JSON.parse(jsonstring);
+        }
+        catch (exception) {
+            console.log(exception);
+        };
 
         geocoder = new google.maps.Geocoder();
 
@@ -28,9 +35,11 @@
             center: center
         });
 
-        $.each(data["markers"], function(index,value) {
-            createMarkerByAddress(value["location"]);
-        });
+		if(result != null) {
+            $.each(result["markers"], function (index, value) {
+                createMarkerByAddress(value["location"]);
+            });
+        }
     };
 
     function cacheAddress(address, location) {
