@@ -63,6 +63,7 @@ public class Controller  {
     private int colCount;
 
     private ResultSet rs;
+    private ResultSet maprs;
 
 
     public void OnButtonClick(){
@@ -114,44 +115,61 @@ public class Controller  {
     }
 
     public void MapTabActive(){
-        JSONObject obj = new JSONObject();
-        JSONArray markers = new JSONArray();
-
-        //loop door data format op deze manier de data
-        JSONObject marker = new JSONObject();
-        marker.put("label","Test");
-        marker.put("content","Content");
-        marker.put("location","41.3308,-94.0138");
-        markers.add(marker);
-        //endloop
-
-        obj.put("markers",markers);
-        String jsonstring = obj.toJSONString();
-
-        WebView webView = new WebView();
-        WebEngine webEngine = webView.getEngine();
-
-        URL url = getClass().getResource("../html/index.html");
-        File file = new File(url.getPath());
-
-        String content = null;
-        try {
-            content = new String (Files.readAllBytes(file.toPath()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Pattern p = Pattern.compile("\\{\\{.*\\}\\}");
-        Matcher m = p.matcher(content);
-        content = m.replaceFirst(jsonstring);
-
-        webEngine.loadContent(content);
-
-        mapPane.setContent(webView);
-
         if(mapTab.isSelected()) {
             System.out.println("MapTabActive");
-            //comboBox.getItems().setAll(comboBoxMapContent);
+
+            JSONObject obj = new JSONObject();
+            JSONArray markers = new JSONArray();
+            String sqlmap = "SELECT actorname, birthplaces.coords\n" +
+                    "FROM actor\n" +
+                    "  INNER JOIN  birthplaces\n" +
+                    "  ON actor.birthplace = birthplaces.birthplace\n" +
+                    "WHERE actor.birthplace NOTNULL AND birthplaces.coords NOTNULL;";
+            //loop door data format op deze manier de data
+            try {
+                DBConnection.initDB();
+                maprs = DBConnection.statement.executeQuery(sqlmap);
+                JSONObject marker = new JSONObject();
+
+                while(maprs.next()) {
+                    //adding data on piechart data
+                    //pieChartData.add(new PieChart.Data(rs.getString(2), rs.getDouble(1)));
+
+                    marker.put("label", maprs.getString(1));
+                    marker.put("content", "Content");
+                    marker.put("location", maprs.getString(2));
+                    markers.add(marker);
+                    //endloop
+                }
+            }
+            catch(Exception e){
+                System.out.println("Error on DB connection");
+                DBConnection.closeDB();
+            }
+            obj.put("markers", markers);
+            String jsonstring = obj.toJSONString();
+
+            WebView webView = new WebView();
+            WebEngine webEngine = webView.getEngine();
+
+            URL url = getClass().getResource("../html/index.html");
+            File file = new File(url.getPath());
+
+            String content = null;
+            try {
+                content = new String(Files.readAllBytes(file.toPath()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Pattern p = Pattern.compile("\\{\\{.*\\}\\}");
+            Matcher m = p.matcher(content);
+            content = m.replaceFirst(jsonstring);
+
+            webEngine.loadContent(content);
+
+            mapPane.setContent(webView);
+            DBConnection.closeDB();
         }
     }
 
