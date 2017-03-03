@@ -95,7 +95,7 @@ public class Controller  {
         comboBox.getItems().clear();
         if(tableTab.isSelected()) {
             System.out.println("TableTabActive");
-            QuestionQuery.InitTableQuestions();
+            //QuestionQuery.InitTableQuestions();
             for (QuestionQuery question: QuestionQuery.tableQuestions)
                 comboBox.getItems().add(question.question);
         }
@@ -106,7 +106,7 @@ public class Controller  {
         comboBox.getItems().clear();
         if(chartTab.isSelected()){
             System.out.println("ChartTabActive");
-            QuestionQuery.InitChartQuestions();
+            //QuestionQuery.InitChartQuestions();
             //comboBox.getItems().setAll(chartQuestions);;
             for (QuestionQuery question: QuestionQuery.chartQuestions)
                 comboBox.getItems().add(question.question);

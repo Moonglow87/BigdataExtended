@@ -44,13 +44,20 @@ public class QuestionQuery {
                         "INNER JOIN country ON country.countryid = movielocation.locationname\n" +
                         "WHERE movielocation.isserie = FALSE GROUP BY countryname\n" +
                         "ORDER BY counted DESC;"));
+        chartQuestions.add(new QuestionQuery("Wat is het meest voorkomende genre met het woord 'beer' in de titel",
+                "SELECT counted, genretype from (\n" +
+                        " SELECT count(*) AS counted, genretype FROM moviegenre\n" +
+                        "WHERE isserie = FALSE\n" +
+                        "     AND movietitle LIKE '%beer%'\n" +
+                        "GROUP BY genretype ORDER BY counted DESC\n" +
+                        ") AS count LIMIT 10"));
     }
 
     public static void InitTableQuestions() {
         tableQuestions = new ArrayList<>();
-        tableQuestions.add(new QuestionQuery("Welke acteur (m/v) heeft de meeste dubbelrollen",
-                "SELECT count(*) as counted, actorname FROM actorinmovie\n" +
-                        "WHERE actorplays LIKE '%/%' GROUP BY actorname ORDER BY counted DESC\n" +
+        tableQuestions.add(new QuestionQuery("Welke acteur heeft de meeste dubbelrollen",
+                "SELECT count(*) as dubbelrollen, actorname FROM actorinmovie\n" +
+                        "WHERE actorplays LIKE '%/%' GROUP BY actorname ORDER BY dubbelrollen DESC\n" +
                         "LIMIT 10;"));
         tableQuestions.add(new QuestionQuery("In welke films speelde Joop Braakhekke",
                 "SELECT * FROM actorinmovie\n" +
