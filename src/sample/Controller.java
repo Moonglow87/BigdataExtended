@@ -113,6 +113,7 @@ public class Controller  {
         }
     }
 
+    //Daniel & Michael
     public void MapTabActive(){
         if(mapTab.isSelected()) {
             System.out.println("MapTabActive");
@@ -189,7 +190,7 @@ public class Controller  {
     }
 
     /********************************
-     * Todo: Move this another Class?*
+     * Todo: Move this another Class?*  // Michael
      ********************************/
     public void getTableColums(String sqlstring){
         try{
@@ -240,6 +241,7 @@ public class Controller  {
         }
     }
 
+    //Sam & Michael
     private void getPieChartData(String sql){
         try{
             barChart.setVisible(false);
@@ -260,7 +262,7 @@ public class Controller  {
 
     }
 
-
+    //Michael
     private void getBarChartData(String sql) {
         try{
             pieChart.setVisible(false);
