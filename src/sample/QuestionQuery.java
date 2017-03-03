@@ -8,19 +8,56 @@ import java.util.ArrayList;
 public class QuestionQuery {
     public String question = "";
     public String query = "";
+    public String defaultvalue = "";
 
     public static ArrayList<QuestionQuery> tableQuestions;
+    public static ArrayList<QuestionQuery> chartQuestions;
+
+    public QuestionQuery(String question, String query, String value) {
+        this.question = question;
+        this.query = query;
+        this.defaultvalue = value;
+    }
 
     public QuestionQuery(String question, String query) {
         this.question = question;
         this.query = query;
     }
 
+    public static void InitChartQuestions(){
+        chartQuestions = new ArrayList<>();
+        chartQuestions.add(new QuestionQuery("Geef het aantal films dat in Nederland gemaakt is weer in de tijd.",
+                "SELECT count(*) as counted, releasedate FROM movies\n" +
+                        "INNER JOIN movielocation ON movies.movietitle = movielocation.movietitle\n" +
+                        "AND movies.releasedate = movielocation.moviereleasedate\n" +
+                        "AND movies.isserie = movielocation.isserie\n" +
+                        "WHERE locationname = 'nl' AND movies.isserie = FALSE GROUP BY releasedate\n" +
+                        "ORDER BY counted DESC"));
+        chartQuestions.add(new QuestionQuery("Wat is het meest voorkomende film genre",
+                "SELECT counted, genretype FROM (\n" +
+                        " SELECT count(*) AS counted, genretype FROM moviegenre\n" +
+                        "WHERE isserie = FALSE\n" +
+                        "GROUP BY genretype\n" +
+                        ") AS count;"));
+        chartQuestions.add(new QuestionQuery("Geef visueel aan waar films worden gemaakt.",
+                "SELECT count(*) as counted, country.countryname FROM movielocation\n" +
+                        "INNER JOIN country ON country.countryid = movielocation.locationname\n" +
+                        "WHERE movielocation.isserie = FALSE GROUP BY countryname\n" +
+                        "ORDER BY counted DESC;"));
+        chartQuestions.add(new QuestionQuery("Wat is het meest voorkomende genre met het woord 'beer' in de titel",
+                "SELECT counted, genretype from (\n" +
+                        " SELECT count(*) AS counted, genretype FROM moviegenre\n" +
+                        "WHERE isserie = FALSE\n" +
+                        "     AND movietitle LIKE '%beer%'\n" +
+                        "GROUP BY genretype ORDER BY counted DESC\n" +
+                        ") AS count LIMIT 10"));
+    }
+
     public static void InitTableQuestions() {
         tableQuestions = new ArrayList<>();
-        tableQuestions.add(new QuestionQuery("Welke acteur (m/v) heeft de meeste dubbelrollen",
-                "SELECT count(*) as counted, actorname FROM actorinmovie\n" +
-                        "WHERE actorplays LIKE '%/%' GROUP BY actorname ORDER BY counted DESC\n" +
+        tableQuestions.add(new QuestionQuery("Welke acteur heeft de meeste dubbelrollen",
+                "SELECT count(*) as dubbelrollen, actorname FROM actorinmovie\n" +
+                        "WHERE actorplays LIKE '%/%' GROUP BY actorname ORDER BY dubbelrollen DESC\n" +
                         "LIMIT 10;"));
         tableQuestions.add(new QuestionQuery("In welke films speelde Joop Braakhekke",
                 "SELECT * FROM actorinmovie\n" +
@@ -53,7 +90,7 @@ public class QuestionQuery {
                         "     AND movietitle LIKE '%beer%'\n" +
                         "GROUP BY releasedate ORDER BY counted DESC\n" +
                         ") AS count LIMIT 10"));
-        tableQuestions.add(new QuestionQuery("^... En wat is het meest voorkomende genre",
+        tableQuestions.add(new QuestionQuery("Wat is het meest voorkomende genre met het woord 'beer' in de titel",
                 "SELECT counted, genretype from (\n" +
                         " SELECT count(*) AS counted, genretype FROM moviegenre\n" +
                         "WHERE isserie = FALSE\n" +
@@ -81,7 +118,7 @@ public class QuestionQuery {
                         "     AND actorname = 'Allen, Woody'\n" +
                         "     AND actorinmovie.isserie = FALSE;"));
         tableQuestions.add(new QuestionQuery("Zijn er ook films waarin Woody Allen wel speelde maar niet regisseerde",
-                "SELECT actorinmovie.* FROM actorinmovie\n" +
+                "SELECT DISTINCT actorinmovie.* FROM actorinmovie\n" +
                         "INNER JOIN moviedirector\n" +
                         "   ON moviedirector.movietitle = actorinmovie.movietitle\n" +
                         " AND moviedirector.moviereleasedate = actorinmovie.moviereleasedate\n" +

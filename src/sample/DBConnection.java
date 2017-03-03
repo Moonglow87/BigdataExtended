@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 
 /**
- * Created by michael on 02/03/2017.
+ * Created by michael on 10/01/2017.
  */
 public class DBConnection {
 
@@ -17,7 +17,7 @@ public class DBConnection {
             initDBDriver();
             String user = "postgres";
             String pass = "admin!";
-            String url = "jdbc:postgresql://localhost:5432/stagingmovieDB";
+            String url = "jdbc:postgresql://localhost:5432/stagingmovieDB"; //TODO: Remote server instead of local
             db = DriverManager.getConnection(url, user, pass);
             statement = db.createStatement();
         } catch (Exception e) {
