@@ -18,7 +18,6 @@ import javafx.scene.web.WebView;
 import javafx.util.Callback;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-//import javafx.application.Platform;
 
 
 
@@ -124,20 +123,24 @@ public class Controller  {
                     "FROM actor\n" +
                     "  INNER JOIN  birthplaces\n" +
                     "  ON actor.birthplace = birthplaces.birthplace\n" +
-                    "WHERE actor.birthplace NOTNULL AND birthplaces.coords NOTNULL;";
+                    "WHERE actor.birthplace NOTNULL AND birthplaces.coords NOTNULL\n" +
+                    "  AND birthplaces.coords != ''\n" +
+                    "LIMIT 50;";
             //loop door data format op deze manier de data
             try {
                 DBConnection.initDB();
                 maprs = DBConnection.statement.executeQuery(sqlmap);
-                JSONObject marker = new JSONObject();
+
 
                 while(maprs.next()) {
-                    //adding data on piechart data
-                    //pieChartData.add(new PieChart.Data(rs.getString(2), rs.getDouble(1)));
-
+                    JSONObject marker = new JSONObject();
                     marker.put("label", maprs.getString(1));
+                    //System.out.println(maprs.getString(1));
+                    //System.out.println(maprs.getString(2));
+                    //marker.put("label", "test");
                     marker.put("content", "Content");
                     marker.put("location", maprs.getString(2));
+                    //marker.put("location", "33.5259546,-94.2588085");
                     markers.add(marker);
                     //endloop
                 }
@@ -148,9 +151,12 @@ public class Controller  {
             }
             obj.put("markers", markers);
             String jsonstring = obj.toJSONString();
+            //System.out.println(jsonstring);
+
 
             WebView webView = new WebView();
             WebEngine webEngine = webView.getEngine();
+
 
             URL url = getClass().getResource("../html/index.html");
             File file = new File(url.getPath());
