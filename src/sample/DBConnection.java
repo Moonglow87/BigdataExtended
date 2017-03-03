@@ -17,7 +17,7 @@ public class DBConnection {
             initDBDriver();
             String user = "postgres";
             String pass = "admin!";
-            String url = "jdbc:postgresql://localhost:5432/stagingmovieDB";
+            String url = "jdbc:postgresql://localhost:5432/stagingmovieDB"; //TODO: Remote server instead of local
             db = DriverManager.getConnection(url, user, pass);
             statement = db.createStatement();
         } catch (Exception e) {

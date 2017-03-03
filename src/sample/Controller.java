@@ -81,7 +81,7 @@ public class Controller  {
                 //getTableColums(QuestionQuery.tableQuestions.get(comboBox.getSelectionModel().getSelectedIndex()).query);
                 if(comboBox.getSelectionModel().getSelectedIndex() == 0)
                     getBarChartData(QuestionQuery.chartQuestions.get(comboBox.getSelectionModel().getSelectedIndex()).query);
-                if(comboBox.getSelectionModel().getSelectedIndex() == 1)
+                if(comboBox.getSelectionModel().getSelectedIndex() > 0)
                     getPieChartData(QuestionQuery.chartQuestions.get(comboBox.getSelectionModel().getSelectedIndex()).query);
             }
             catch (Exception e) {
@@ -243,7 +243,7 @@ public class Controller  {
             DBConnection.initDB();
             rs = DBConnection.statement.executeQuery(sql);
             XYChart.Series serie = new XYChart.Series();
-            serie.setName("Nederland");  //TODO: Change it Dynammically
+            serie.setName("Nederland");  //TODO: Change it Dynammically now only usable for 1 Country "Netherlands"
             while (rs.next())
             {
                 //adding data on barchart Data
