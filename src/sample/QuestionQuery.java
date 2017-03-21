@@ -51,6 +51,13 @@ public class QuestionQuery {
                         "     AND movietitle LIKE '%beer%'\n" +
                         "GROUP BY genretype ORDER BY counted DESC\n" +
                         ") AS count LIMIT 10"));
+        chartQuestions.add(new QuestionQuery("Wat is het meest voorkomende genre met het woord 'beer' in de titel2",
+                "SELECT counted, genretype from (\n" +
+                        " SELECT count(*) AS counted, genretype FROM moviegenre\n" +
+                        "WHERE isserie = FALSE\n" +
+                        "     AND movietitle LIKE '%beer%'\n" +
+                        "GROUP BY genretype ORDER BY counted DESC\n" +
+                        ") AS count LIMIT 10"));
     }
 
     public static void InitTableQuestions() {

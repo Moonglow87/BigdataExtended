@@ -31,9 +31,9 @@
             <tabs>
                 <Tab fx:id="tableTab" onSelectionChanged="#TableTabActive" text="Table">
                 <content>
-                    <AnchorPane minHeight="-Infinity" minWidth="-Infinity">
+                    <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="795.0">
                         <children>
-                            <TableView fx:id="table" prefHeight="600.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
+                            <TableView fx:id="table" prefHeight="521.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
                             </TableView>
                         </children>
                     </AnchorPane>

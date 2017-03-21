@@ -24,12 +24,15 @@ import org.json.simple.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 
 import java.sql.*;
 import java.sql.ResultSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import java.net.URLEncoder;
 
 
 public class Controller  {
@@ -90,6 +93,9 @@ public class Controller  {
         }
     }
 
+    /**
+     *
+     */
     public void TableTabActive(){
         comboBox.setPromptText("Select Query");
         comboBox.getItems().clear();
@@ -174,6 +180,7 @@ public class Controller  {
             content = m.replaceFirst(jsonstring);
 
             webEngine.loadContent(content);
+
 
             mapPane.setContent(webView);
             DBConnection.closeDB();
@@ -270,7 +277,7 @@ public class Controller  {
             DBConnection.initDB();
             rs = DBConnection.statement.executeQuery(sql);
             XYChart.Series serie = new XYChart.Series();
-            serie.setName("Nederland");  //TODO: Change it Dynammically now only usable for 1 Country "Netherlands"
+            serie.setName("Nederland");  //TODO: Change to use it Dynammically now only usable for 1 Country "Netherlands"
             while (rs.next())
             {
                 //adding data on barchart Data
